@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <h2 class="text-center mb-4">Risk Assessment Analysis</h2>
+        
+        <!-- Risk Assessment Form -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="h5 mb-0">Risk Assessment Form</h3>
+            </div>
+            <div class="card-body">
+                <form action="/predict_risk" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Age</label>
+                            <input type="number" class="form-control" name="age" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Race</label>
+                            <select class="form-select" name="race" required>
+                                <option value="">Select race</option>
+                                <option value="white">White</option>
+                                <option value="black">Black</option>
+                                <option value="hispanic">Hispanic</option>
+                                <option value="asian">Asian</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Medical History</label>
+                            <select class="form-select" name="medical_history" required>
+                                <option value="">Select option</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Genetic Factors</label>
+                            <select class="form-select" name="genetic" required>
+                                <option value="">Select option</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                                <option value="unknown">Unknown</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">BRCA1 Gene Mutation</label>
+                            <select class="form-select" name="brca1" required>
+                                <option value="">Select option</option>
+                                <option value="positive">Positive</option>
+                                <option value="negative">Negative</option>
+                                <option value="unknown">Unknown</option>
+                            </select>
+                            <small class="text-muted">BRCA1 gene mutation status</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Benign Biopsy History</label>
+                            <select class="form-select" name="benign_biopsy" required>
+                                <option value="">Select option</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Number of Biopsies</label>
+                            <select class="form-select" name="biopsy_count">
+                                <option value="">Select option</option>
+                                <option value="1">1</option>
+                                <option value="2plus">2 or more</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Hyperplasia</label>
+                            <select class="form-select" name="hyperplasia" required>
+                                <option value="">Select option</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Age at First Menstruation</label>
+                            <select class="form-select" name="menstrual_age" required>
+                                <option value="">Select option</option>
+                                <option value="7_11">7-11 years</option>
+                                <option value="12_13">12-13 years</option>
+                                <option value="14plus">14+ years</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Age at First Child</label>
+                            <select class="form-select" name="first_child_age">
+                                <option value="">Select option</option>
+                                <option value="under30">Under 30</option>
+                                <option value="30_34">30-34</option>
+                                <option value="35plus">35+</option>
+                                <option value="no_children">No children</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Family History</label>
+                            <select class="form-select" name="relatives" required>
+                                <option value="">Select option</option>
+                                <option value="none">No relatives</option>
+                                <option value="one">One relative</option>
+                                <option value="more">More than one</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-calculator me-2"></i>Calculate Risk
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Results Display -->
+        {% if risk_prediction %}
+        <div class="result-box">
+            <h4 class="mb-3">Risk Assessment Result</h4>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                {{ risk_prediction }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breast Cancer Risk Assessment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8) !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+        }
+
+        .nav-link.active {
+            color: white !important;
+            font-weight: bold;
+        }
+
+        .main-content {
+            min-height: calc(100vh - 160px);
+            padding: 2rem 0;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .result-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+    <!-- Modern AI Chatbot Widget -->
+    <style>
+    #chatbot-widget { position: fixed; bottom: 24px; right: 24px; z-index: 9999; }
+    #chatbot-circle {
+        background: linear-gradient(135deg, #007bff 60%, #00c6ff 100%);
+        color: white;
+        width: 60px; height: 60px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 2em; font-weight: bold;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        cursor: pointer;
+        transition: box-shadow 0.2s;
+        border: 3px solid #fff;
+    }
+    #chatbot-circle:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+    #chatbot-body {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        width: 370px; max-width: 95vw;
+        position: absolute; bottom: 70px; right: 0;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        animation: chatbotOpen 0.25s cubic-bezier(.4,2,.6,1) 1;
+    }
+    @keyframes chatbotOpen { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+    #chatbot-header {
+        background: linear-gradient(135deg, #007bff 60%, #00c6ff 100%);
+        color: white;
+        padding: 16px 20px;
+        font-size: 1.2em;
+        font-weight: bold;
+        display: flex; align-items: center; gap: 10px;
+        border-radius: 18px 18px 0 0;
+        letter-spacing: 1px;
+    }
+    #chatbot-header .ai-logo {
+        background: #fff; color: #007bff; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1em;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    #chatbot-messages {
+        padding: 18px 14px 8px 14px;
+        height: 270px; max-height: 40vh;
+        overflow-y: auto;
+        background: #f7fafd;
+        display: flex; flex-direction: column;
+        gap: 8px;
+    }
+    .chat-msg { 
+        max-width: 85%; 
+        padding: 14px 18px; 
+        border-radius: 18px; 
+        font-size: 1.08em; 
+        line-height: 1.7; 
+        word-break: break-word; 
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        margin-bottom: 2px;
+        margin-top: 2px;
+        transition: background 0.2s;
+    }
+    .chat-user { 
+        align-self: flex-end; 
+        background: linear-gradient(135deg, #007bff 60%, #00c6ff 100%); 
+        color: #fff; 
+        border-bottom-right-radius: 6px; 
+        font-weight: 500;
+    }
+    .chat-ai { 
+        align-self: flex-start; 
+        background: linear-gradient(135deg, #f3f8ff 60%, #e0eafc 100%); 
+        color: #1a1a1a; 
+        border-bottom-left-radius: 6px; 
+        font-weight: 400;
+        border: 1px solid #e3eafc;
+    }
+    #chatbot-form {
+        display: flex; border-top: 1px solid #e3e3e3; background: #f7fafd;
+        padding: 8px 10px;
+        gap: 8px;
+    }
+    #chatbot-input {
+        flex: 1; border: none; padding: 10px 14px; border-radius: 12px; font-size: 1em; background: #fff; outline: none; box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    #chatbot-form button {
+        background: linear-gradient(135deg, #007bff 60%, #00c6ff 100%);
+        color: #fff; border: none; border-radius: 12px; padding: 0 18px; font-size: 1em; font-weight: bold; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: background 0.2s;
+    }
+    #chatbot-form button:hover { background: #0056b3; }
+    #chatbot-disclaimer {
+        font-size: 0.85em; color: #888; padding: 10px 16px 12px 16px; border-top: 1px solid #e3e3e3; background: #f7fafd; border-radius: 0 0 18px 18px;
+        text-align: center;
+    }
+    @media (max-width: 600px) {
+        #chatbot-body { width: 98vw !important; right: -10px; }
+        #chatbot-messages { height: 40vw; min-height: 120px; }
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-heartbeat me-2"></i>
+                Breast Cancer Risk Assessment
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'home' %}active{% endif %}" href="/">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'analysis' %}active{% endif %}" href="/analysis">
+                            <i class="fas fa-chart-line me-1"></i> Risk Analysis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'feature_analysis' %}active{% endif %}" href="/feature_analysis">
+                            <i class="fas fa-brain me-1"></i> Feature Analysis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'image_analysis' %}active{% endif %}" href="/image_analysis">
+                            <i class="fas fa-image me-1"></i> Image Analysis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'about' %}active{% endif %}" href="/about">
+                            <i class="fas fa-info-circle me-1"></i> About
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+
+            <!-- Modern AI Chatbot Widget -->
+            <div id="chatbot-widget">
+                <div id="chatbot-circle">AI</div>
+                <div id="chatbot-body">
+                    <div id="chatbot-header"><span class="ai-logo">AI</span> AI Assistant</div>
+                    <div id="chatbot-messages"></div>
+                    <form id="chatbot-form">
+                        <input id="chatbot-input" type="text" placeholder="Ask me anything...">
+                        <button type="submit">Send</button>
+                    </form>
+                    <div id="chatbot-disclaimer">
+                        *Disclaimer: This information is for educational purposes only. For medical advice, diagnosis, or treatment, please consult a healthcare professional.*
+                    </div>
+                </div>
+            </div>
+            <script>
+            // Toggle chatbot
+            document.getElementById('chatbot-circle').onclick = function() {
+                var body = document.getElementById('chatbot-body');
+                body.style.display = (body.style.display === 'none') ? 'flex' : 'none';
+            };
+            // Chatbot logic
+            document.getElementById('chatbot-form').onsubmit = async function(e) {
+                e.preventDefault();
+                var input = document.getElementById('chatbot-input');
+                var msg = input.value.trim();
+                if (!msg) return;
+                var messages = document.getElementById('chatbot-messages');
+                messages.innerHTML += '<div class="chat-msg chat-user">' + msg + '</div>';
+                input.value = '';
+                messages.scrollTop = messages.scrollHeight;
+                // Send to backend
+                const res = await fetch('/chatbot', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await res.json();
+                messages.innerHTML += '<div class="chat-msg chat-ai">' + data.reply + '</div>';
+                messages.scrollTop = messages.scrollHeight;
+            };
+            </script>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 Breast Cancer Risk Assessment. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

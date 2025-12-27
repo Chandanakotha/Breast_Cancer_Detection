@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <h2 class="text-center mb-4">Feature-Based Analysis</h2>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="h5 mb-0">Medical Feature Analysis</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info mb-4">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Please enter the following medical features for analysis. These features are typically obtained from medical imaging and diagnostic tests.
+                </div>
+                
+                <form action="/predict_features" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Radius Mean</label>
+                            <input type="number" step="any" class="form-control" name="feature_0" required>
+                            <small class="text-muted">Average size of the core tumor</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Texture Mean</label>
+                            <input type="number" step="any" class="form-control" name="feature_1" required>
+                            <small class="text-muted">Standard deviation of gray-scale values</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Perimeter Mean</label>
+                            <input type="number" step="any" class="form-control" name="feature_2" required>
+                            <small class="text-muted">Perimeter of the core tumor</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Concavity Mean</label>
+                            <input type="number" step="any" class="form-control" name="feature_3" required>
+                            <small class="text-muted">Severity of concave portions of the contour</small>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-brain me-2"></i>Analyze Features
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Results Display -->
+        {% if feature_prediction %}
+        <div class="result-box">
+            <h4 class="mb-3">Analysis Result</h4>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                {{ feature_prediction }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Feature Information -->
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="h5 mb-0">About Medical Features</h3>
+            </div>
+            <div class="card-body">
+                <p class="mb-3">The feature analysis uses 4 key medical features that are extracted from medical imaging and diagnostic tests:</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <strong>Radius Mean</strong>
+                                <p class="small text-muted mb-0">Measures the average size of the core tumor, indicating the overall size of the affected area.</p>
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <strong>Texture Mean</strong>
+                                <p class="small text-muted mb-0">Represents the standard deviation of gray-scale values, indicating the texture of the tumor surface.</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <strong>Perimeter Mean</strong>
+                                <p class="small text-muted mb-0">Measures the perimeter of the core tumor, helping to understand the tumor's shape and spread.</p>
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <strong>Concavity Mean</strong>
+                                <p class="small text-muted mb-0">Indicates the severity of concave portions of the contour, which can be a sign of tumor invasiveness.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="alert alert-warning mt-3">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Please ensure all feature values are accurate and obtained from proper medical tests. Incorrect values may lead to inaccurate analysis results.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

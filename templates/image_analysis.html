@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white text-center">
+                <h2 class="h4 mb-0">Breast Cancer Image Analysis</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" class="mb-4">
+                    <div class="mb-3">
+                        <label for="file-upload" class="form-label">Upload Image</label>
+                        <input class="form-control" type="file" name="file" id="file-upload" accept="image/*" required>
+                        <div class="form-text">Supported formats: JPG, PNG, BMP</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Predict</button>
+                </form>
+                {% if prediction %}
+                <div class="alert {% if prediction == 'Malignant' %}alert-danger{% elif prediction == 'Benign' %}alert-success{% else %}alert-warning{% endif %} text-center">
+                    <strong>{{ prediction }}</strong>
+                    {% if confidence %}<div>Model Confidence: {{ confidence }}</div>{% endif %}
+                </div>
+                {% endif %}
+                <div class="mt-3">
+                    <div class="alert alert-info">
+                        <strong>Note:</strong> This tool provides AI-based guidance only. Always consult a medical professional for an official diagnosis.
+                    </div>
+                </div>
+                {% if prediction %}
+                <div class="mt-3">
+                    <div class="alert {% if prediction == 'Malignant' %}alert-danger{% else %}alert-success{% endif %}">
+                        <strong>Precautions & Advice for {{ prediction }} diagnosis:</strong>
+                        <ul class="mb-0">
+                            <li>Continue regular check-ups and screenings.</li>
+                            <li>Maintain a healthy lifestyle with balanced diet and exercise.</li>
+                            <li>Consult your doctor if you notice any breast tissue changes.</li>
+                            <li>Avoid smoking and limit alcohol consumption.</li>
+                            <li>Practice breast self-examination regularly.</li>
+                        </ul>
+                        {% if prediction == 'Malignant' %}
+                        <ul class="mt-2 mb-0">
+                            <li>See a healthcare professional immediately for further evaluation.</li>
+                            <li>Early diagnosis and treatment are crucial for better outcomes.</li>
+                            <li>Follow your healthcare provider's treatment plan carefully.</li>
+                            <li>Seek support from family, friends, or support groups.</li>
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
