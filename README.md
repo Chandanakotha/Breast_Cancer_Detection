@@ -49,7 +49,7 @@ This project aims to classify breast cancer images as **Benign** or **Malignant*
 
 ---
 
-## 🚀 How to Run the Project
+##  How to Run the Project
 
 ```bash
 # Clone the repository
@@ -75,7 +75,7 @@ http://127.0.0.1:5001
 
 ---
 
-## 📂 Clean Folder Structure
+## Folder Structure
 
 ```
 Breast_Cancer_Detection/
@@ -94,7 +94,7 @@ Breast_Cancer_Detection/
 
 ---
 
-## 📌 Git & Commits
+## Git & Commits
 
 Use **meaningful commits**, for example:
 
@@ -112,7 +112,7 @@ It is **not intended for medical diagnosis**.
 
 ---
 
-## 👩‍💻 Author
+## Author
 
 **Chandana Kotha**
 Computer Science (AI & ML)
